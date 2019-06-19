@@ -1,5 +1,4 @@
 import json
-import datetime
 
 def retrieve_ranked_elements(browser):
     """Extracts div elements for ranked submissions
