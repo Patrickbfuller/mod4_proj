@@ -1,9 +1,18 @@
 import json
 
 def retrieve_ranked_elements(browser):
-    """Extracts div elements for ranked submissions
+    """
+    Extracts div elements for ranked submissions
     from a selenium browser. Skips adverts and announcements.
-    Returns a list of selenium elements"""
+
+    Parameters:
+    ---
+    broswer: selenium.webdriver object eg. selenium.webdriver.chrome.webdriver.WebDriver
+
+    Returns:
+    ---
+    List of selenium elements - - selenium.webdriver.remote.webelement.WebElement object
+    """
     wildcard_sel = '//*[contains(@id, "thing")]'
     els = browser.find_elements_by_xpath(wildcard_sel)
         # If the element doesn't have a data-rank we want to skip it
@@ -11,9 +20,23 @@ def retrieve_ranked_elements(browser):
     return ranked_elements
 
 def retrieve_submissions_data(element):
-    """Extract text, and metadata for a reddit 
+    """
+    Extract text, and metadata for a reddit 
     submission from a web selenium web element.
-    Returns a dictionary for storage in json."""
+    Returns a dictionary for storage in json.
+    Parameters:
+    ---
+    element: selenium.webdriver.remote.webelement.WebElement object
+
+    Returns:
+    ---
+    dict(
+        'text':text,
+        'age': age,
+        'timestamp': timestamp,
+        'score': score,
+        'num_comments': num_comments)
+    """
     title_sel = 'a.title.may-blank.outbound'
     time_sel = 'time.live-timestamp'
     title_element = element.find_element_by_css_selector(title_sel)      
@@ -27,8 +50,15 @@ def retrieve_submissions_data(element):
     return data
 
 def store_page_to_json(browser, fp):
-    """Transfer submission data + metadata on a reddit(old.reddit) page to json.
-    Input args: selenium browser and filepath. Returns: None. """
+    """
+    Transfer submission data + metadata on a reddit(old.reddit) page to json.
+    Input args: selenium browser and filepath. Returns: None. 
+
+    Parameters:
+    ---
+    broswer: selenium.webdriver object eg. selenium.webdriver.chrome.webdriver.WebDriver
+    fp: opened file object - - <_io.TextIOWrapper name='test.json' mode='r' encoding='UTF-8'>
+    """
     submission_elements = retrieve_ranked_elements(browser=browser)
     for element in submission_elements:
         data = retrieve_submissions_data(element)
@@ -36,8 +66,15 @@ def store_page_to_json(browser, fp):
         fp.write('\n') 
 
 def go_back(browser):
-    """Go to the previous page. There is not an archive for every day of old.reddit.com/r/worldnews
-        but its okay, we just need to get enough datapoints."""
+    """
+    Go to the previous page. There is not an archive for every 
+    day of old.reddit.com/r/worldnews 
+    but its okay, we just need to get enough datapoints.
+
+    Parameters:
+    ---
+    broswer: selenium.webdriver object eg. selenium.webdriver.chrome.webdriver.WebDriver
+    """
     shadow_section = browser.execute_script(
     '''return document.querySelector("div").shadowRoot''')
     #nav_buttons = browser.find_elements_by_css_selector(sel)
