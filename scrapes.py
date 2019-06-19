@@ -19,7 +19,7 @@ def retrieve_submissions_data(element):
     title_element = element.find_element_by_css_selector(title_sel)      
     time_element = element.find_element_by_css_selector(time_sel)        
     data = {}
-    data['text'] = title_element.text   # Correcting this as title element
+    data['text'] = title_element.text  
     data['age'] = time_element.text
     data['timestamp'] = time_element.get_attribute('title')
     data['score'] = element.get_attribute('data-score')
