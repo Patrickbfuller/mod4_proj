@@ -82,12 +82,15 @@ def predict():
     
     # prediction = model.predict_proba([data['user_input']])
     
-    predicted_score = np.exp(score_model.predict(arguments))
-    predicted_comments = np.exp(comment_model.predict(arguments))
+    predicted_score = np.exp(score_model.predict(arguments))[0]
+    predicted_comments = np.exp(comment_model.predict(arguments))[0]
+
+    rounded_predicted_score = round(predicted_score)
+    rounded_predicted_comments = round(predicted_comments)
     
     
-    return jsonify({'1. Score': predicted_score[0],
-                    '2. Number of Comments': predicted_comments[0]})
+    return jsonify({'1. Score': rounded_predicted_score,
+                    '2. Number of Comments': rounded_predicted_comments})
 
 
 

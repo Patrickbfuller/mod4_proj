@@ -1,6 +1,38 @@
 from sklearn.base import BaseEstimator, TransformerMixin
 import numpy as np
+import pandas as pd
+from nltk import word_tokenize
 
+
+
+class TextTransformer(BaseEstimator, TransformerMixin):
+    
+    def __init__(self):
+        self.dimensions = 0
+    
+    def fit(self, X, y):
+        return self
+    
+    def transform(self, X):
+        """Element wise tokenize text values in a column."""
+        print(type(X))
+#         return np.vectorize(word_tokenize)(X)
+        return np.array([word_tokenize(x) for x in X])
+        return X.map(word_tokenize)
+    
+# tok = np.vectorize(word_tokenize)
+
+# class ColumnTokenizer(BaseEstimator, TransformerMixin):
+    
+#     def __init__(self, tok=tok):
+#         self.dimensions = 0
+    
+#     def fit(self, X, y):
+#         return self
+    
+#     def transform(self, X):
+#         """Element wise tokenize text values in a column."""
+#         return tok(X)
 
 class W2vVectorizer(BaseEstimator, TransformerMixin):
     
